@@ -10,3 +10,19 @@ https://www.tecmint.com/install-ruby-on-centos-rhel-8/
 sudo dnf module list nodejs
 sudo dnf module install nodejs:16
 
+---====
+Updating the IP addresses with the hostname
+
+
+In the target instance
+sudo hostnamectl set-hostname myserver
+sudo vi /etc/hostname
+sudo vi /etc/hosts
+127.0.1.1 myserver
+sudo hostnamectl set-hostname $(cat /etc/hostname)
+
+
+In the host - from where we need to do SSH
+We map the IP address with the host names
+sudo nano /etc/hosts
+192.168.0.185 myserver
