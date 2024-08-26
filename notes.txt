@@ -1,0 +1,5 @@
+sudo curl -sSL https://get.rvm.io | bash
+sudo source /etc/profile.d/rvm.sh
+sudo rvm requirements
+sudo rvm list known
+sudo rvm install ruby 2.4
