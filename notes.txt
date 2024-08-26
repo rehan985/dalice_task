@@ -3,3 +3,10 @@ sudo source /etc/profile.d/rvm.sh
 sudo rvm requirements
 sudo rvm list known
 sudo rvm install ruby 2.4
+
+
+https://www.tecmint.com/install-ruby-on-centos-rhel-8/
+
+sudo dnf module list nodejs
+sudo dnf module install nodejs:16
+
