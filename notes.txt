@@ -25,4 +25,4 @@ sudo hostnamectl set-hostname $(cat /etc/hostname)
 In the host - from where we need to do SSH
 We map the IP address with the host names
 sudo nano /etc/hosts
-192.168.0.185 myserver
+192.168.0.185 myservername
