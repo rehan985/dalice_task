@@ -1,0 +1,42 @@
+---
+- name: Install Apache on Rocky 8 with sudo privileges
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install firewalld
+      dnf:
+        name: firewalld
+        state: present
+
+    - name: Start firewalld service
+      systemd:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: Install python3-firewall package (required for firewalld module)
+      dnf:
+        name: python3-firewall
+        state: present
+
+    - name: Ensure Apache is installed
+      dnf:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache service
+      systemd:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Open HTTP port in the firewall
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+    - name: Reload the firewall
+      command: firewall-cmd --reload
