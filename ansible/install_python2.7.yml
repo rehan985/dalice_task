@@ -1,0 +1,10 @@
+---
+- name: Install Python 2.7 module on Rocky Linux
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Python 2.7 using dnf module
+      ansible.builtin.command:
+        cmd: "dnf module -y install python27"
+      ignore_errors: yes

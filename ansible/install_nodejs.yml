@@ -1,0 +1,16 @@
+---
+- name: Install Node.js 16
+  hosts: all
+  become: true
+  tasks:
+
+    - name: List available Node.js modules
+      command: dnf module list nodejs
+      register: nodejs_modules
+
+    - name: Debug PHP module list
+      debug:
+        var: nodejs_modules.stdout_lines
+
+    - name: Install Node.js 16
+      command: dnf module install -y nodejs:16

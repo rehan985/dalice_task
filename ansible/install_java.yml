@@ -1,0 +1,10 @@
+---
+- name: Install Java 1.8 on Rocky Linux
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Java 1.8 and development tools using dnf
+      ansible.builtin.command:
+        cmd: dnf -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+      ignore_errors: yes
