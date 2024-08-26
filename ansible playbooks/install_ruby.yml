@@ -1,0 +1,23 @@
+---
+- name: Install Ruby using RVM
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Install RVM
+      shell: curl -sSL https://get.rvm.io | bash
+
+    - name: Install RVM requirements
+      shell: source /etc/profile.d/rvm.sh && rvm requirements
+      args:
+        executable: /bin/bash
+
+    - name: List known Ruby versions
+      shell: source /etc/profile.d/rvm.sh && rvm list known
+      args:
+        executable: /bin/bash
+
+    - name: Install Ruby 2.4
+      shell: source /etc/profile.d/rvm.sh && rvm install 2.4
+      args:
+        executable: /bin/bash
