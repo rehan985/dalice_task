@@ -1,28 +1,39 @@
-sudo curl -sSL https://get.rvm.io | bash
-sudo source /etc/profile.d/rvm.sh
-sudo rvm requirements
-sudo rvm list known
-sudo rvm install ruby 2.4
+
+---===
+Installing ruby 2.4 using RVM package manager
+- sudo curl -sSL https://get.rvm.io | bash
+- sudo source /etc/profile.d/rvm.sh
+- sudo rvm requirements
+- sudo rvm list known
+- sudo rvm install ruby 2.4
 
 
 https://www.tecmint.com/install-ruby-on-centos-rhel-8/
 
-sudo dnf module list nodejs
-sudo dnf module install nodejs:16
+---====
+For nodejs on rocky 8 / RHEL 8
+- sudo dnf module list nodejs
+- sudo dnf module install nodejs:16
 
 ---====
 Updating the IP addresses with the hostname
 
 
-In the target instance
-sudo hostnamectl set-hostname myserver
-sudo vi /etc/hostname
-sudo vi /etc/hosts
-127.0.1.1 myserver
-sudo hostnamectl set-hostname $(cat /etc/hostname)
-
+- In the target instance
+- sudo hostnamectl set-hostname myserver
+- sudo vi /etc/hostname
+- sudo vi /etc/hosts
+- 127.0.1.1 myserver
+- sudo hostnamectl set-hostname $(cat /etc/hostname)
 
 In the host - from where we need to do SSH
 We map the IP address with the host names
-sudo nano /etc/hosts
-192.168.0.185 myservername
+- sudo nano /etc/hosts
+- 192.168.0.185 myservername
+
+---===
+Updating TLS configuration (version in apache/httpd)
+- Login to instance with Apache server
+- locate ssl.conf in /etc/httpd/conf.d/ or /etc/apache2/mods-available/
+- Update the line SSLProtocols — all +TLSv1 +TLSv1.1 +TLSv1.2 with SSLProtocols — all +TLSv1 +TLSv1.1 +TLSv1.2 +TLSv1.3
+- sudo systemctl restart apache2 or sudo systemctl restart httpd
