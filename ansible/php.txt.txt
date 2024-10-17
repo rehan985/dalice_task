@@ -1,0 +1,41 @@
+- name: Update all packages
+  dnf:
+    name: "*"
+    state: latest
+
+- name: Check if EPEL is already installed
+  dnf:
+    name: epel-release
+    state: present
+  register: epel_installed
+
+- name: Install EPEL repository (if not already installed)
+  command: rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+  when: epel_installed is not defined or epel_installed.changed
+  ignore_errors: yes
+
+- name: Import Remi GPG key manually
+  command: rpm --import https://rpms.remirepo.net/RPM-GPG-KEY-remi
+
+- name: Install Remi repository
+  command: dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+
+- name: List available PHP modules
+  command: yum module list php
+  register: php_modules_list
+
+- name: Debug PHP module list (optional)
+  debug:
+    var: php_modules_list.stdout_lines
+
+- name: Reset PHP module (optional)
+  dnf:
+    name: php
+    use_backend: rpm
+    state: absent
+
+- name: Install PHP 7.2 from Remi repository
+  command: dnf module install php:remi-7.2 -y
+
+- name: Install php-pgsql module
+  command: dnf install php-pgsql -y

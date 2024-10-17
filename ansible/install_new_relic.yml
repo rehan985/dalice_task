@@ -1,0 +1,40 @@
+---
+- name: Install and Configure New Relic Infrastructure Agent on Rocky Linux 8
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Add New Relic GPG key
+      rpm_key:
+        state: present
+        key: https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg
+
+    - name: Create New Relic repository
+      copy:
+        dest: /etc/yum.repos.d/newrelic-infra.repo
+        content: |
+          [newrelic-infra]
+          name=New Relic Infrastructure
+          baseurl=https://download.newrelic.com/infrastructure_agent/linux/yum/el/8/x86_64
+          gpgcheck=1
+          gpgkey=https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg
+          enabled=1
+
+    - name: Install New Relic Infrastructure Agent
+      dnf:
+        name: newrelic-infra
+        state: present
+
+    - name: Create the configuration file /etc/newrelic-infra.yml
+      copy:
+        src: "files/newrelic-infra.yml-{{ inventory_hostname }}"
+        dest: /etc/newrelic-infra.yml
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and start New Relic Infrastructure Agent service
+      systemd:
+        name: newrelic-infra
+        enabled: yes
+        state: started
